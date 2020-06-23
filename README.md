@@ -16,7 +16,7 @@ Southxchange is a cryptocurrency broker that does not require KYC trading is acc
  - [x] Generate Address
  - [ ] Withdraw
  - [x] Balances
- - [x] Transactions List.
+ - [x] Transactions List
  
 ## Instalation
 
