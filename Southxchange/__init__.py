@@ -14,11 +14,15 @@ def Southxchange(private, secret):
 
     logged[0] = {'status' : True, 'private' : private, 'secret' : secret}
 
-def Push(path, json=None, headers=None):
+def Push(path, method='POST', json=None, headers=None):
 
     url = 'https://www.southxchange.com/api' + path
 
-    return requests.post(url, json=json, headers=headers)
+    if method == 'GET':
+        return requests.get(url, json=json, headers=headers)
+
+    if method == 'POST':
+        return requests.post(url, json=json, headers=headers)
 
 def Nonce():
 
@@ -30,7 +34,6 @@ def Sign(data):
         raise ValueError('You have not entered your keys in Southxchange(secret, private)')
 
     return hmac.new(logged[0]['secret'].encode(), json.dumps(data).encode(), hashlib.sha512).hexdigest()
-
 
 class Market:
 
@@ -130,7 +133,7 @@ class Wallets:
             address = address.replace('"', '')
 
             return {'error' : False, 'message' : 'New address generated.', 'address' : address}
-        
+
     def withdraw(self, currency, address, amount=None):
 
         if isinstance(currency, str) == False or isinstance(address, str) == False:
@@ -183,3 +186,62 @@ class Wallets:
                     }
 
                     return Push('/listTransactions', json=data, headers={'Hash' : Sign(data)}).json()
+
+class Markets:
+
+    def listmarkets(self):
+
+        return Push('/markets', method='GET').json()
+
+    def price(self, x, y):
+
+        x, y = str(x).upper(), str(y).upper()
+
+        request = Push('/price/{0}/{1}'.format(x, y), method='GET')
+
+        if not type(eval(request.text)) in [dict, list]:
+            raise ValueError('Market does not exist.')
+
+        return request.json()
+
+    def prices(self):
+
+        return Push('/prices', method='GET').json()
+
+    def book(self, x, y):
+
+        x, y = str(x).upper(), str(y).upper()
+
+        request = Push('/book/{0}/{1}'.format(x, y), method='GET')
+
+        if not type(eval(request.text)) in [dict, list]:
+            raise ValueError('Market does not exist.')
+
+        return request.json()
+
+    def trades(self, x, y):
+
+        x, y = str(x).upper(), str(y).upper()
+
+        request = Push('/trades/{0}/{1}'.format(x, y), method='GET')
+
+        if not type(eval(request.text)) in [dict, list]:
+            raise ValueError('Market does not exist.')
+
+        return request.json()
+
+    def history(self, x, y, start, end, periods=100):
+
+        x, y = str(x).upper(), str(y).upper()
+
+        if str(start).isnumeric() == False or str(end).isnumeric() == False:
+            raise ValueError('(Start or End) are not an integer.')
+
+        query = '/history/{0}/{1}/{2}/{3}/{4}'.format(x, y, start, end, periods)
+
+        request = Push(query, method='GET')
+
+        if not type(eval(request.text)) in [dict, list]:
+            raise ValueError('Market does not exist.')
+
+        return request.json()
