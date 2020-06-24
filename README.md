@@ -14,7 +14,7 @@ Southxchange is a cryptocurrency broker that does not require KYC trading is acc
 
 #### Wallets
  - [x] Generate Address
- - [ ] Withdraw
+ - [x] Withdraw
  - [x] Balances
  - [x] Transactions List
  
@@ -62,7 +62,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 ```python
 >>> Wallets = Southxchange.Wallets()
->>> 
+>>>
 >>> Wallets.newaddress('BTC') # New Address.
 {'error': False, 'message': 'New address generated.', 'address': '3G983JSIM ...'}
 >>>
@@ -71,8 +71,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>>
 >>> Wallets.transactions('BTC', type='transactions', pageindex=1, pagesize=50) # List History Transactions.
 {'TotalElements': 50, 'Result': [{...} ...] ...}
+>>>
+>>> Wallets.withdraw('BBP', 'BPHoq ...', amount='2') # Withdraw
+{'error': False, 'message': '', ...}
+>>>
 ```
-
-
-
-
