@@ -130,6 +130,33 @@ class Wallets:
             address = address.replace('"', '')
 
             return {'error' : False, 'message' : 'New address generated.', 'address' : address}
+        
+    def withdraw(self, currency, address, amount=None):
+
+        if isinstance(currency, str) == False or isinstance(address, str) == False:
+            raise ValueError('(currency, address) is not a string.')
+
+        if isinstance(currency, int) == True or isinstance(amount, str) == True:
+
+            if str(amount).replace('.', '', 1).isdigit() == False:
+                raise ValueError('(amount) it is not a number.')
+
+            data = {'nonce' : Nonce(), 'key' : logged[0]['private'], 'currency' : currency, 'address' : address, 'amount' : amount}
+
+            request = Push('/withdraw', json=data, headers={'Hash' : Sign(data)})
+
+            if request.status_code == 400:
+                return {'error' : True, 'message' : eval(request.text)}
+
+            result = request.json()
+            result.update({
+                'error' : False, 'message' : '', 'status' : request['Status'],
+                'max' : request['Max'],
+                'maxdaily' : request['MaxDaily'],
+                'movementid' : request['MovementId']
+            })
+
+            return result
 
     def balances(self):
 
