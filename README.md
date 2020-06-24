@@ -170,6 +170,4 @@ Type "help", "copyright", "credits" or "license" for more information.
 | end             | End date in milliseconds from January 1, 1970 |
 | periods         | Number of periods to get (Optional: defaults to 100) |
 
-Thanks :)
-
 
