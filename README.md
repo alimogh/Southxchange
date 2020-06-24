@@ -2,7 +2,7 @@
 
 <img src='https://www.cryptunit.com/exchangeicons/38.png' width="300" height="300">
 
-[Donate Bitcoin](https://paywall.link/to/donate)
+[Buy me a coffee ☕︎](https://paywall.link/to/donate)
 
 Southxchange is a cryptocurrency broker that does not require KYC trading is accepted with Lightning, with this library you can interact with the platform.
 
