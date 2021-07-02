@@ -1,0 +1,3 @@
+I'm unsure how to get ahold of you so I'm trying this.
+
+How do I return only a specific currency using "Wallets.balances()"?
